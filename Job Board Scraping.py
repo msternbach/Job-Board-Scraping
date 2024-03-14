@@ -630,13 +630,15 @@ job_links = []
 # handshake scraping
 
 chrome_options = Options()
+chrome_options.add_argument("--incognito")  # Use Chrome in incognito mode.
 # These configurations are needed to run code using a cron job. Otherwise only argument needed is incognito
-#chrome_options.add_argument("--headless")
-#chrome_options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36')
+'''
+chrome_options.add_argument("--headless")
+chrome_options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36')
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, necessary on Linux if running as root.
 chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems.
-chrome_options.add_argument("--incognito")  # Use Chrome in incognito mode.
 chrome_options.add_argument("--disable-gpu")  # Applicable to windows os only
+'''
 
 driver = webdriver.Chrome(options=chrome_options)
 
