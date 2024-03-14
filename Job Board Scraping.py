@@ -328,7 +328,7 @@ username_field = driver.find_element(By.ID, 'session_key')
 username_field.clear()
 
 # Type your username into the input field
-username_field.send_keys('johnwebscraper@gmail.com')
+username_field.send_keys('YourEmail@gmail.com')
 
 time.sleep(2)
 
@@ -337,7 +337,7 @@ username_field = driver.find_element(By.ID, 'session_password')
 username_field.clear()
 
 # Type your password in
-username_field.send_keys('Selenium123')
+username_field.send_keys('Your Password')
 
 sign_in_button_xpath = "//button[contains(@class, 'btn-md') and contains(text(), 'Sign in')]"
 
@@ -603,14 +603,14 @@ df.to_csv(filename)
 import pyotp
 
 # pyotp.totp.TOTP('secret_key').provisioning_uri(name='your_account', issuer_name='service name')
-pyotp.totp.TOTP('XEI2ZAAZB7LDMIBSGGTHXQBOLH2ZZ7QR').provisioning_uri(name='msternb2@binghamton.edu', issuer_name='binghamton.edu')
+pyotp.totp.TOTP('XEI2ZAAZB7LDMIBSGGTHXQBOLH2ZZ7QR').provisioning_uri(name='YourEmail@gmail.edu', issuer_name='Organization Name')
 
 
 # In[3]:
 
 
-# use otpauth above
-authen = pyotp.parse_uri('otpauth://totp/binghamton.edu:msternb2%40binghamton.edu?secret=XEI2ZAAZB7LDMIBSGGTHXQBOLH2ZZ7QR&issuer=binghamton.edu')
+# use otpauth output from above
+authen = pyotp.parse_uri('YourOutputLink')
 print(authen.now())
 
 
@@ -681,14 +681,14 @@ username = driver.find_element(By.ID, "username")
 username.clear()
 
 # type your username
-username.send_keys('msternb2')
+username.send_keys('YourUsername')
     
 password = driver.find_element(By.ID, "password")
 
 password.clear()
 
 # type your password
-password.send_keys('Mes209133735')
+password.send_keys('YourPassword')
   
 password.send_keys(Keys.ENTER)
 
