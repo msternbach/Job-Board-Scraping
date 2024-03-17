@@ -742,10 +742,9 @@ for term in search_terms:
 
             try:
                 WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, ".style__job-title___\\+5oXm"))
+                    EC.presence_of_element_located((By.XPATH, '//*[@id="skip-to-content"]/div[4]/div/div[1]/div/div/form/div[2]/div/div/div[2]/div[1]/a/h1'))
                 )
-
-                title_link = driver.find_element(By.CSS_SELECTOR, ".style__job-title___\\+5oXm")
+                title_link = driver.find_element(By.XPATH, '//*[@id="skip-to-content"]/div[4]/div/div[1]/div/div/form/div[2]/div/div/div[2]/div[1]/a/h1')
                 job_title.append(title_link.text)
 
             except (NoSuchElementException, TimeoutException) as e:
@@ -755,26 +754,43 @@ for term in search_terms:
 
             try:
                 # Adjusting for 'company_name'
-                name_link = driver.find_element(By.CSS_SELECTOR, ".style__employer-name___q6Wql")
+                name_link = driver.find_element(By.XPATH, '//*[@id="skip-to-content"]/div[4]/div/div[1]/div/div/form/div[2]/div/div/div[2]/div[1]/div[1]/div/a[1]/div')
                 company_name.append(name_link.text)
 
             except NoSuchElementException:
                 # Handle the case where the link is not found
                 print("Company name not found for this job listing.")
                 company_name.append("N/A")
+                
+            try:
+                location_link = driver.find_element(By.XPATH, '//*[@id="skip-to-content"]/div[4]/div/div[1]/div/div/form/div[2]/div/div/div[2]/div[1]/div[3]/div[3]/div[2]/div/div[1]')
+                location_name.append(location_link.text)
+
+            except NoSuchElementException:
+                # Handle the case where the link is not found
+                print("Location not found for this job listing.")
+                location_name.append("N/A")
 
                     # Adjusting for 'salary'
             try:
-                salary_element = driver.find_element(By.CSS_SELECTOR, "div[data-hook='estimated-pay'] .style__content___hHzEB")
+                salary_element = driver.find_element(By.XPATH, '//*[@id="skip-to-content"]/div[4]/div/div[1]/div/div/form/div[2]/div/div/div[2]/div[1]/div[3]/div[3]/div[1]/div/div[1]')
                 salary.append(salary_element.text)  # Ensure 'salary' is the correct list variable for appending
 
             except NoSuchElementException:
                 print("Salary not found for this job listing.")
                 salary.append("N/A")
+                
+            try:
+                more_button = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'More')]"))
+                )
+                more_button.click()  # Click the "More" button to expand the job description
+            except TimeoutException:
+                print("No 'More' button found or it was not clickable.")
 
             try:
                 # Adjusting for 'job_description'
-                description_element = driver.find_element(By.CSS_SELECTOR, ".style__content___pLStL")
+                description_element = driver.find_element(By.XPATH, '//*[@id="skip-to-content"]/div[4]/div/div[1]/div/div/form/div[2]/div/div/div[2]/div[1]/div[3]/div[4]/div/div/div')
                 job_description.append(description_element.text)
             except NoSuchElementException:
                 print("Description not found for this job listing.")
