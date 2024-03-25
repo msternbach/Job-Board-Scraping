@@ -394,7 +394,7 @@ username_field = driver.find_element(By.ID, 'session_key')
 username_field.clear()
 
 # Type your username into the input field
-username_field.send_keys('johnwebscraper@gmail.com')
+username_field.send_keys('your username')
 
 time.sleep(2)
 
@@ -403,7 +403,7 @@ username_field = driver.find_element(By.ID, 'session_password')
 username_field.clear()
 
 # Type your password in
-username_field.send_keys('Selenium123')
+username_field.send_keys('your password')
 
 sign_in_button_xpath = "//button[contains(@class, 'btn-md') and contains(text(), 'Sign in')]"
 
@@ -808,14 +808,14 @@ username = driver.find_element(By.ID, "username")
 username.clear()
 
 # type your username
-username.send_keys('msternb2')
+username.send_keys('your username')
     
 password = driver.find_element(By.ID, "password")
 
 password.clear()
 
 # type your password
-password.send_keys('Mes209133735')
+password.send_keys('your password')
   
 password.send_keys(Keys.ENTER)
 
