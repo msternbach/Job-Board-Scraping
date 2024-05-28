@@ -490,8 +490,8 @@ for term in search_terms:
                 try:
                     # Wait for the job description element to be present on the page
                     title_link = WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.CLASS_NAME, "job-details-jobs-unified-top-card__job-title-link"))
-                    )
+                        EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'job-details-jobs-unified-top-card__job-title')]")
+                    ))
                     # Extract the job title from the span element
                     job_title.append(title_link.text)
 
@@ -838,11 +838,13 @@ time.sleep(2)
 search_terms = ['data%20analyst','data%20scientist','analytics']
 
 for term in search_terms:
+    print(term)
     page = 1
     more_pages = True
 
     # Keeps going until no more new postings
     while more_pages:
+        print('loop_executed')
         # Navigate to the URL with the current page number
         driver.get('https://app.joinhandshake.com/stu/postings?page='+ str(page) +'&per_page=25&sort_direction=desc&sort_column=created_at&locations%5B%5D%5Blabel%5D=New%20York%2C%20NY&locations%5B%5D%5Bname%5D=New%20York%2C%20NY&locations%5B%5D%5Bdistance%5D=15mi&locations%5B%5D%5Bpoint%5D=40.7534164%2C%20-73.9911957&locations%5B%5D%5Blatitude%5D=40.7534164&locations%5B%5D%5Blongitude%5D=-73.9911957&query=' + term)
         sleep(randint(3, 5))
@@ -851,15 +853,23 @@ for term in search_terms:
         )
 
         job_listings = driver.find_elements(By.CLASS_NAME, "style__card___XOQvr")
+
         fresh_found = False
     
         for job_listing in job_listings:
-            fresh_markers = job_listing.find_elements(By.CLASS_NAME, "style__fresh___ML-to")
-            if len(fresh_markers) == 0:
-                more_pages = False
-                break  # Breaks out of job_listings loop, not while loop
+            try:
+                # Locate the parent div based on its structure and the presence of a <p> tag with text ending in 'ago'
+                parent_div = job_listing.find_element(By.XPATH, ".//div[contains(@class, 'sc-') and .//p[contains(text(), 'ago')]]")
+                # Find the first <p> element within this parent <div>
+                first_p_element = parent_div.find_element(By.XPATH, ".//p[contains(@class, 'sc-')]")
+                if 'month' in first_p_element.text:
+                    more_pages = False
+                    break
+            except NoSuchElementException:
+                continue  # Continue 
 
             fresh_found = True
+            
             # Wait for the new job listings to load
             # Click on each job listing
             job_listing.click()
@@ -871,7 +881,7 @@ for term in search_terms:
                 )
                 title_link = driver.find_element(By.XPATH, '//*[@id="skip-to-content"]/div[4]/div/div[1]/div/div/form/div[2]/div/div/div[2]/div[1]/a/h1')
                 job_title.append(title_link.text)
-                print(job_title)
+                print(title_link.text)
 
             except (NoSuchElementException, TimeoutException) as e:
                 # Handle the case where the title link is not found within the given time
@@ -941,6 +951,8 @@ for term in search_terms:
         else:
             # If no fresh markers were found or there are no more pages, then stop looking through pages
             break
+        
+
         
 
 # Wait for a few seconds (optional, adjust as needed)
